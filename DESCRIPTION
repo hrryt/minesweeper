@@ -1,0 +1,14 @@
+Package: minesweeper
+Type: Package
+Title: Play Minesweeper
+Version: 0.1.0
+Description: Play, record and replay games of minesweeper using a graphics device that supports event handling.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Import: grid
+Suggests: gifski
+Roxygen: list(markdown = TRUE)  
+RoxygenNote: 7.2.3
+Depends: R (>= 2.10)
+Authors@R: person("Harry", "Thompson", email = "harry@mayesfield.uk", role = c("aut", "cre"))
