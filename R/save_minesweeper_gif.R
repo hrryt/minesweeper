@@ -10,9 +10,28 @@
 save_minesweeper_gif <- function(
     recording, gif_file = "animation.gif", width = 800, height = 600,
     delay = 1, loop = TRUE, progress = TRUE, ...) {
+
   stopifnot(
     "Package \"gifski\" must be installed to use this function." =
       requireNamespace("gifski", quietly = TRUE)
   )
-  replay(recording, save_to_gif = TRUE, gif_file, width, height, delay, loop, progress, ...)
+
+  imgdir <- tempfile("tmppng")
+  dir.create(imgdir)
+  on.exit(unlink(imgdir, recursive = TRUE))
+  filename <- file.path(imgdir, "tmpimg_%05d.png")
+  grDevices::png(filename, width = width, height = height, ...)
+  graphics::par(ask = FALSE)
+
+  tryCatch(
+    replay(recording, save_to_gif = TRUE, delay, progress),
+    finally = grDevices::dev.off()
+  )
+
+  images <- list.files(imgdir, pattern = "tmpimg_\\d{5}.png", full.names = TRUE)
+  frames <- c(seq_along(images), rep.int(length(images), 1 %/% delay))
+  gifski::gifski(
+    images[frames], gif_file = gif_file, width = width, height = height,
+    delay = delay, loop = loop, progress = progress
+  )
 }

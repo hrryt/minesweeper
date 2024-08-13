@@ -2,23 +2,42 @@
 #'
 #' Start a minesweeper game in the current graphics device.
 #'
-#' The current graphics device must support event handling
-#' (see [grDevices::getGraphicsEvent()]). On the `windows()` device,
-#' the timer will only update upon mouse events as `onIdle` is not supported.
+#' Expert difficulty is 16x30 with 99 mines, intermediate 16x16 with 40 mines,
+#' and beginner 9x9 with 10 mines.
 #'
+#' The current graphics device must support event handling
+#' (see [grDevices::getGraphicsEvent()]). If `onIdle` is not supported,
+#' the timer will only update on mouse events.
+#'
+#' @param difficulty establishes default dimensions and mine count
 #' @param nrow,ncol dimensions of the minesweeper board
 #' @param mine_count number of mines to sweep
 #' @param mine_density proportion of cells that conceal a mine
 #' @returns Object of class "minesweeper_recording" to pass to
-#' [replay_minesweeper()], invisibly.
+#' [replay_minesweeper()] or [save_minesweeper_gif()], invisibly.
 #' @examplesIf interactive()
 #' dev.new(noRStudioGD = TRUE)
 #' try(recording <- play_minesweeper())
+#' dev.off()
 #' @export
 play_minesweeper <- function(
-    nrow = 16, ncol = 30,
-    mine_count = mine_density * nrow * ncol, mine_density = 0.20625) {
+    difficulty = c("expert", "intermediate", "beginner"),
+    nrow = NULL, ncol = NULL,
+    mine_count = NULL, mine_density = NULL) {
 
+  board <- switch(
+    match.arg(difficulty),
+    expert = c(16, 30, 99),
+    intermediate = c(16, 16, 40),
+    beginner = c(9, 9, 10)
+  )
+
+  if(is.null(nrow)) nrow <- board[[1]]
+  if(is.null(ncol)) ncol <- board[[2]]
+  if(is.null(mine_count)) mine_count <- if(is.null(mine_density))
+    board[[3]] else as.integer(nrow * ncol * mine_density)
+
+  stopifnot(nrow * ncol >= mine_count)
   board <- new_board(nrow, ncol, mine_count)
 
   inputs <- list()
@@ -27,6 +46,7 @@ play_minesweeper <- function(
   timer <- 0L
   need_first <- TRUE
   first <- NULL
+  mouse_pos <- c(0L, 0L)
 
   devset <- function() {
     if (grDevices::dev.cur() != eventEnv$which)
@@ -43,11 +63,28 @@ play_minesweeper <- function(
     NULL
   }
 
-  if(names(grDevices::dev.cur()) == "windows") {
-    onMouseMove <- onIdle
-    formals(onMouseMove) <- alist(buttons =, x =, y =)
-    onIdle <- NULL
-  } else onMouseMove <- NULL
+  onMouseMove <- function(buttons, x, y) {
+    devset()
+    if(need_first && attr(board, "time")) {
+      need_first <<- FALSE
+      first <<- Sys.time()
+    }
+    timer <<- update_timer(board, Sys.time() - first, timer)
+    cell <- ndc2cell(x, y)
+    x <- cell[["x"]]
+    y <- cell[["y"]]
+    if(any(mouse_pos != c(x, y))) {
+      board <<- hide_cells(board)
+      if(length(buttons) != 0) {
+        board <<- on_mouse_down(
+          buttons, x, y, board, nrow, ncol, mine_count, flag = FALSE
+        )
+      }
+    }
+    mouse_pos <<- c(x, y)
+    down_buttons <<- buttons
+    NULL
+  }
 
   onMouseDown <- function(buttons, x, y) {
     devset()
@@ -60,12 +97,11 @@ play_minesweeper <- function(
     y <- cell[["y"]]
     current <- Sys.time()
     inputs[[frame]] <<- list(
-      up = FALSE, buttons = buttons, x = x, y = y,
-      diff = current
+      up = FALSE, buttons = buttons, x = x, y = y, diff = current
     )
     frame <<- frame + 1L
-    down_buttons <<- buttons
     board <<- on_mouse_down(buttons, x, y, board, nrow, ncol, mine_count)
+    down_buttons <<- buttons
     NULL
   }
 
@@ -77,17 +113,16 @@ play_minesweeper <- function(
     y <- cell[["y"]]
     current <- Sys.time()
     inputs[[frame]] <<- list(
-      up = TRUE, buttons = buttons, x = x, y = y,
-      diff = current
+      up = TRUE, buttons = buttons, x = x, y = y, diff = current
     )
     frame <<- frame + 1L
-    board <<- on_mouse_up(down_buttons, x, y, board, nrow, ncol, mine_count)
+    board <<- on_mouse_up(buttons, down_buttons, x, y, board, nrow, ncol, mine_count)
+    down_buttons <<- buttons
     if(need_first && attr(board, "time")) {
       need_first <<- FALSE
       first <<- Sys.time()
     }
     timer <<- update_timer(board, Sys.time() - first, timer)
-    down_buttons <<- NULL
     if(attr(board, "restart")) {
       update_smiley(":)")
       if(smile) {

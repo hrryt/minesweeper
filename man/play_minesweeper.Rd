@@ -5,13 +5,16 @@
 \title{Play Minesweeper}
 \usage{
 play_minesweeper(
-  nrow = 16,
-  ncol = 30,
-  mine_count = mine_density * nrow * ncol,
-  mine_density = 0.20625
+  difficulty = c("expert", "intermediate", "beginner"),
+  nrow = NULL,
+  ncol = NULL,
+  mine_count = NULL,
+  mine_density = NULL
 )
 }
 \arguments{
+\item{difficulty}{establishes default dimensions and mine count}
+
 \item{nrow, ncol}{dimensions of the minesweeper board}
 
 \item{mine_count}{number of mines to sweep}
@@ -20,19 +23,23 @@ play_minesweeper(
 }
 \value{
 Object of class "minesweeper_recording" to pass to
-\code{\link[=replay_minesweeper]{replay_minesweeper()}}, invisibly.
+\code{\link[=replay_minesweeper]{replay_minesweeper()}} or \code{\link[=save_minesweeper_gif]{save_minesweeper_gif()}}, invisibly.
 }
 \description{
 Start a minesweeper game in the current graphics device.
 }
 \details{
+Expert difficulty is 16x30 with 99 mines, intermediate 16x16 with 40 mines,
+and beginner 9x9 with 10 mines.
+
 The current graphics device must support event handling
-(see \code{\link[grDevices:getGraphicsEvent]{grDevices::getGraphicsEvent()}}). On the \code{windows()} device,
-the timer will only update upon mouse events as \code{onIdle} is not supported.
+(see \code{\link[grDevices:getGraphicsEvent]{grDevices::getGraphicsEvent()}}). If \code{onIdle} is not supported,
+the timer will only update on mouse events.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 dev.new(noRStudioGD = TRUE)
 try(recording <- play_minesweeper())
+dev.off()
 \dontshow{\}) # examplesIf}
 }

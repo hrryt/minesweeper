@@ -8,6 +8,14 @@
 \description{
 Play, record and replay games of minesweeper using a graphics device that supports event handling.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/hrryt/minesweeper}
+  \item Report bugs at \url{https://github.com/hrryt/minesweeper/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Harry Thompson \email{harry@mayesfield.uk}
 

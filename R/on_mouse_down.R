@@ -1,6 +1,6 @@
-on_mouse_down <- function(buttons, j, i, board, nrow, ncol, mine_count) {
+on_mouse_down <- function(buttons, j, i, board, nrow, ncol, mine_count, flag = TRUE) {
   if(no_play(board, i, j, nrow, ncol)) return(board)
-  if(2 %in% buttons) board <- flag_cell(board, i, j)
+  if(flag && 2 %in% buttons) board <- flag_cell(board, i, j)
   nbors <- neighbors(i, j, nrow, ncol)
   blanks <- board[nbors] == "-"
   if(board[[i, j]] == "-") {
