@@ -1,4 +1,4 @@
-#' Save Minesweeper Recording to GIF
+#' Save a Minesweeper Recording to GIF
 #'
 #' Save a recorded game of minesweeper to a GIF file.
 #'
@@ -6,6 +6,12 @@
 #'
 #' @inheritParams replay_minesweeper
 #' @inheritParams gifski::save_gif
+#' @returns The file path of the GIF file.
+#' @examplesIf interactive() && requireNamespace("gifski", quietly = TRUE)
+#' dev.new(noRStudioGD = TRUE)
+#' recording <- play_minesweeper()
+#' save_minesweeper_gif(recording)
+#' dev.off()
 #' @export
 save_minesweeper_gif <- function(
     recording, gif_file = "animation.gif", width = 800, height = 600,

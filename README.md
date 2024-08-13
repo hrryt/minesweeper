@@ -10,6 +10,12 @@ Play minesweeper in R, replay your games and save them to GIF.
 
 ## Installation
 
+You can install minesweeper with:
+
+``` r
+install.packages("minesweeper")
+```
+
 You can install the development version of minesweeper from
 [GitHub](https://github.com/) with:
 

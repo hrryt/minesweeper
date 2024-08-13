@@ -1,6 +1,6 @@
-#' Play Minesweeper
+#' Start a Minesweeper Game
 #'
-#' Start a minesweeper game in the current graphics device.
+#' Play minesweeper interactively in the current graphics device.
 #'
 #' Expert difficulty is 16x30 with 99 mines, intermediate 16x16 with 40 mines,
 #' and beginner 9x9 with 10 mines.
@@ -17,7 +17,7 @@
 #' [replay_minesweeper()] or [save_minesweeper_gif()], invisibly.
 #' @examplesIf interactive()
 #' dev.new(noRStudioGD = TRUE)
-#' try(recording <- play_minesweeper())
+#' recording <- play_minesweeper()
 #' dev.off()
 #' @export
 play_minesweeper <- function(

@@ -6,7 +6,7 @@
 \alias{minesweeper-package}
 \title{minesweeper: Play Minesweeper}
 \description{
-Play, record and replay games of minesweeper using a graphics device that supports event handling.
+Play and record games of minesweeper using a graphics device that supports event handling. Replay recorded games and save GIF animations of them.
 }
 \seealso{
 Useful links:
@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Harry Thompson \email{harry@mayesfield.uk}
+\strong{Maintainer}: Harry Thompson \email{harry@mayesfield.uk} [copyright holder]
 
 }
 \keyword{internal}

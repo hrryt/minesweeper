@@ -2,7 +2,7 @@
 % Please edit documentation in R/replay_minesweeper.R
 \name{replay_minesweeper}
 \alias{replay_minesweeper}
-\title{Replay Minesweeper}
+\title{Replay a Minesweeper Recording}
 \usage{
 replay_minesweeper(recording)
 }
@@ -15,4 +15,12 @@ replay_minesweeper(recording)
 }
 \description{
 Replay a recorded game of minesweeper in the current graphics device.
+}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+dev.new(noRStudioGD = TRUE)
+recording <- play_minesweeper()
+replay_minesweeper(recording)
+dev.off()
+\dontshow{\}) # examplesIf}
 }

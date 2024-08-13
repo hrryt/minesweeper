@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_minesweeper_gif.R
 \name{save_minesweeper_gif}
 \alias{save_minesweeper_gif}
-\title{Save Minesweeper Recording to GIF}
+\title{Save a Minesweeper Recording to GIF}
 \usage{
 save_minesweeper_gif(
   recording,
@@ -34,9 +34,20 @@ once, or a number to indicate how many times to repeat after the first.}
 
 \item{...}{other graphical parameters passed to \link{png}}
 }
+\value{
+The file path of the GIF file.
+}
 \description{
 Save a recorded game of minesweeper to a GIF file.
 }
 \details{
 Reduce the \code{delay} for greater temporal resolution.
+}
+\examples{
+\dontshow{if (interactive() && requireNamespace("gifski", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+dev.new(noRStudioGD = TRUE)
+recording <- play_minesweeper()
+save_minesweeper_gif(recording)
+dev.off()
+\dontshow{\}) # examplesIf}
 }

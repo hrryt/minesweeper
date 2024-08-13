@@ -2,7 +2,7 @@
 % Please edit documentation in R/play_minesweeper.R
 \name{play_minesweeper}
 \alias{play_minesweeper}
-\title{Play Minesweeper}
+\title{Start a Minesweeper Game}
 \usage{
 play_minesweeper(
   difficulty = c("expert", "intermediate", "beginner"),
@@ -26,7 +26,7 @@ Object of class "minesweeper_recording" to pass to
 \code{\link[=replay_minesweeper]{replay_minesweeper()}} or \code{\link[=save_minesweeper_gif]{save_minesweeper_gif()}}, invisibly.
 }
 \description{
-Start a minesweeper game in the current graphics device.
+Play minesweeper interactively in the current graphics device.
 }
 \details{
 Expert difficulty is 16x30 with 99 mines, intermediate 16x16 with 40 mines,
@@ -39,7 +39,7 @@ the timer will only update on mouse events.
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 dev.new(noRStudioGD = TRUE)
-try(recording <- play_minesweeper())
+recording <- play_minesweeper()
 dev.off()
 \dontshow{\}) # examplesIf}
 }
