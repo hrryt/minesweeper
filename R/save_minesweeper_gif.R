@@ -24,10 +24,11 @@ save_minesweeper_gif <- function(
 
   imgdir <- tempfile("tmppng")
   dir.create(imgdir)
-  on.exit(unlink(imgdir, recursive = TRUE))
+  on.exit(unlink(imgdir, recursive = TRUE), add = TRUE)
   filename <- file.path(imgdir, "tmpimg_%05d.png")
   grDevices::png(filename, width = width, height = height, ...)
-  graphics::par(ask = FALSE)
+  oldpar <- graphics::par(ask = FALSE)
+  on.exit(graphics::par(oldpar), add = TRUE)
 
   tryCatch(
     replay(recording, save_to_gif = TRUE, delay, progress),

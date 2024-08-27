@@ -6,7 +6,7 @@
 \alias{minesweeper-package}
 \title{minesweeper: Play Minesweeper}
 \description{
-Play and record games of minesweeper using a graphics device that supports event handling. Replay recorded games and save GIF animations of them.
+Play and record games of minesweeper using a graphics device that supports event handling. Replay recorded games and save GIF animations of them. Based on classic minesweeper as detailed by Crow P. (1997) \url{https://minesweepergame.com/math/a-mathematical-introduction-to-the-game-of-minesweeper-1997.pdf}.
 }
 \seealso{
 Useful links:
