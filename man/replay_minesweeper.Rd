@@ -17,8 +17,8 @@ replay_minesweeper(recording)
 Replay a recorded game of minesweeper in the current graphics device.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-dev.new(noRStudioGD = TRUE)
+\dontshow{if (.Platform$OS.type == "unix" && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x11() # Unix-specific example
 recording <- play_minesweeper()
 replay_minesweeper(recording)
 dev.off()

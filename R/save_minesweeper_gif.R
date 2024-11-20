@@ -7,8 +7,8 @@
 #' @inheritParams replay_minesweeper
 #' @inheritParams gifski::save_gif
 #' @returns The file path of the GIF file.
-#' @examplesIf interactive() && requireNamespace("gifski", quietly = TRUE)
-#' dev.new(noRStudioGD = TRUE)
+#' @examplesIf .Platform$OS.type == "unix" && interactive() && requireNamespace("gifski", quietly = TRUE)
+#' x11() # Unix-specific example
 #' recording <- play_minesweeper()
 #' save_minesweeper_gif(recording)
 #' dev.off()

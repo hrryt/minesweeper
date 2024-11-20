@@ -1,5 +1,5 @@
-on_mouse_up <- function(buttons, down_buttons, j, i, board, nrow, ncol, mine_count) {
-  buttons <- down_buttons[!down_buttons %in% buttons]
+on_mouse_up <- function(buttons, down_buttons, j, i, board, nrow, ncol, mine_count, unix) {
+  if(!unix) buttons <- down_buttons[!down_buttons %in% buttons]
   board <- hide_cells(board)
   if(no_play(board, i, j, nrow, ncol)) return(board)
   attr(board, "time") <- TRUE

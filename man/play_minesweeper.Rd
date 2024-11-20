@@ -9,7 +9,8 @@ play_minesweeper(
   nrow = NULL,
   ncol = NULL,
   mine_count = NULL,
-  mine_density = NULL
+  mine_density = NULL,
+  os_type = c("guess", "unix", "windows")
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ play_minesweeper(
 \item{mine_count}{number of mines to sweep}
 
 \item{mine_density}{proportion of cells that conceal a mine}
+
+\item{os_type}{used to interpret \code{button} argument of event handlers}
 }
 \value{
 Object of class "minesweeper_recording" to pass to
@@ -36,9 +39,20 @@ The current graphics device must support event handling
 (see \code{\link[grDevices:getGraphicsEvent]{grDevices::getGraphicsEvent()}}). If \code{onIdle} is not supported,
 the timer will only update on mouse events.
 }
+\section{Controls}{
+
+\itemize{
+\item \strong{Left click} an empty square to reveal it.
+\item \strong{Right click} an empty square to flag it.
+\item \strong{Middle click} a number to reveal its adjacent squares.
+\item Press \strong{r} to reset the board.
+\item Press \strong{q} to quit.
+}
+}
+
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-dev.new(noRStudioGD = TRUE)
+\dontshow{if (.Platform$OS.type == "unix" && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x11() # Unix-specific example
 recording <- play_minesweeper()
 dev.off()
 \dontshow{\}) # examplesIf}

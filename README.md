@@ -1,6 +1,3 @@
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # minesweeper
 
 <!-- badges: start -->
@@ -28,9 +25,12 @@ devtools::install_github("hrryt/minesweeper")
 
 ``` r
 library(minesweeper)
-dev.new(noRStudioGD = TRUE)
+x11() # Unix-specific example
 recording <- play_minesweeper()
 replay_minesweeper(recording)
 # install.packages("gifski")
 save_minesweeper_gif(recording)
+dev.off()
 ```
+
+<img src="man/figures/README-minesweeper.gif" />

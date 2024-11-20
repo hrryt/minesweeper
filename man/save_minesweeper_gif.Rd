@@ -44,8 +44,8 @@ Save a recorded game of minesweeper to a GIF file.
 Reduce the \code{delay} for greater temporal resolution.
 }
 \examples{
-\dontshow{if (interactive() && requireNamespace("gifski", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-dev.new(noRStudioGD = TRUE)
+\dontshow{if (.Platform$OS.type == "unix" && interactive() && requireNamespace("gifski", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x11() # Unix-specific example
 recording <- play_minesweeper()
 save_minesweeper_gif(recording)
 dev.off()

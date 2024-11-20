@@ -18,7 +18,7 @@ replay <- function(recording, save_to_gif, delay, progress) {
   current <- start <- if(save_to_gif) as.difftime(0, units = "secs") else Sys.time()
 
   for(i in seq_len(len <- length(recording$inputs))) {
-    if(progress) cat(sprintf(
+    if(save_to_gif && progress) cat(sprintf(
       "\r\033[0;35mCapturing input %i of %i (%.0f%%)...\033[0m",
       i, len, i/len*100
     ))
@@ -33,7 +33,7 @@ replay <- function(recording, save_to_gif, delay, progress) {
     }
     input <- recording$inputs[[i]]
     board <- if(input$up) {
-      on_mouse_up(input$buttons, down_buttons, input$x, input$y, board, nrow, ncol, mine_count)
+      on_mouse_up(input$buttons, down_buttons, input$x, input$y, board, nrow, ncol, mine_count, recording$unix)
     } else {
       down_buttons <- input$buttons
       on_mouse_down(input$buttons, input$x, input$y, board, nrow, ncol, mine_count)

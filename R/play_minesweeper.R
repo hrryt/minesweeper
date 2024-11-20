@@ -9,21 +9,39 @@
 #' (see [grDevices::getGraphicsEvent()]). If `onIdle` is not supported,
 #' the timer will only update on mouse events.
 #'
+#' @section Controls:
+#'
+#' * **Left click** an empty square to reveal it.
+#'
+#' * **Right click** an empty square to flag it.
+#'
+#' * **Middle click** a number to reveal its adjacent squares.
+#'
+#' * Press **r** to reset the board.
+#'
+#' * Press **q** to quit.
+#'
 #' @param difficulty establishes default dimensions and mine count
 #' @param nrow,ncol dimensions of the minesweeper board
 #' @param mine_count number of mines to sweep
 #' @param mine_density proportion of cells that conceal a mine
+#' @param os_type used to interpret `button` argument of event handlers
 #' @returns Object of class "minesweeper_recording" to pass to
 #' [replay_minesweeper()] or [save_minesweeper_gif()], invisibly.
-#' @examplesIf interactive()
-#' dev.new(noRStudioGD = TRUE)
+#' @examplesIf .Platform$OS.type == "unix" && interactive()
+#' x11() # Unix-specific example
 #' recording <- play_minesweeper()
 #' dev.off()
 #' @export
 play_minesweeper <- function(
     difficulty = c("expert", "intermediate", "beginner"),
     nrow = NULL, ncol = NULL,
-    mine_count = NULL, mine_density = NULL) {
+    mine_count = NULL, mine_density = NULL,
+    os_type = c("guess", "unix", "windows")) {
+
+  os_type <- match.arg(os_type)
+  if(os_type == "guess") os_type <- .Platform$OS.type
+  unix <- os_type == "unix"
 
   board <- switch(
     match.arg(difficulty),
@@ -116,7 +134,7 @@ play_minesweeper <- function(
       up = TRUE, buttons = buttons, x = x, y = y, diff = current
     )
     frame <<- frame + 1L
-    board <<- on_mouse_up(buttons, down_buttons, x, y, board, nrow, ncol, mine_count)
+    board <<- on_mouse_up(buttons, down_buttons, x, y, board, nrow, ncol, mine_count, unix)
     down_buttons <<- buttons
     if(need_first && attr(board, "time")) {
       need_first <<- FALSE
@@ -150,7 +168,7 @@ play_minesweeper <- function(
   }
 
   grDevices::setGraphicsEventHandlers(
-    onIdle = onIdle,
+    onIdle = if(unix) onIdle,
     onMouseMove = onMouseMove,
     onMouseDown = onMouseDown,
     onMouseUp = onMouseUp,
@@ -164,7 +182,7 @@ play_minesweeper <- function(
   )
 
   for(i in seq_along(inputs)) inputs[[i]]$diff <- inputs[[i]]$diff - first
-  out <- list(inputs = inputs, mines = attr(board, "mines"))
+  out <- list(inputs = inputs, mines = attr(board, "mines"), unix = unix)
   class(out) <- "minesweeper_recording"
   invisible(out)
 }

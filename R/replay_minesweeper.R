@@ -5,8 +5,8 @@
 #' @param recording object of class "minesweeper_recording" returned by
 #' [play_minesweeper()]
 #' @returns `recording`, invisibly.
-#' @examplesIf interactive()
-#' dev.new(noRStudioGD = TRUE)
+#' @examplesIf .Platform$OS.type == "unix" && interactive()
+#' x11() # Unix-specific example
 #' recording <- play_minesweeper()
 #' replay_minesweeper(recording)
 #' dev.off()
