@@ -43,8 +43,8 @@ play_minesweeper <- function(
   if(os_type == "guess") os_type <- .Platform$OS.type
   unix <- os_type == "unix"
 
-  dev_cur <- substr(names(dev.cur()),1,3)
-  if(unix && dev_cur != "X11") warning("try x11()")
+  dev_cur <- tolower(substr(names(grDevices::dev.cur()), 1, 3))
+  if(unix && dev_cur != "x11") warning("try x11()")
   if(!unix && dev_cur != "win") warning("try windows()")
 
   board <- switch(
