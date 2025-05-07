@@ -1,6 +1,8 @@
 # minesweeper
 
 <!-- badges: start -->
+![](https://cranlogs.r-pkg.org/badges/grand-total/minesweeper)
+![](https://cranlogs.r-pkg.org/badges/last-month/minesweeper)
 <!-- badges: end -->
 
 Play minesweeper in R, replay your games and save them to GIF.
