@@ -1,7 +1,7 @@
 Package: minesweeper
 Type: Package
 Title: Play Minesweeper
-Version: 1.0.1
+Version: 1.0.1.9000
 Description: Play and record games of minesweeper using a graphics device that supports event handling.
     Replay recorded games and save GIF animations of them. Based on classic minesweeper as detailed by
     Crow P. (1997) <https://minesweepergame.com/math/a-mathematical-introduction-to-the-game-of-minesweeper-1997.pdf>.
